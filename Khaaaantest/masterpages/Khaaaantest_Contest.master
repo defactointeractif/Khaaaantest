@@ -1,0 +1,5 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/masterpages/Khaaaantest_Master.master" AutoEventWireup="true" %>
+
+<asp:Content ContentPlaceHolderID="KhaaaantestMasterContent" runat="server">
+    <umbraco:Macro ID="Macro3" Alias="Khaaaantest_Contest" runat="server" />
+</asp:Content>

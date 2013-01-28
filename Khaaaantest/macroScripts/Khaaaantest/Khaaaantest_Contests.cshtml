@@ -1,0 +1,114 @@
+@using umbraco.BusinessLogic
+@using umbraco.MacroEngines
+@using umbraco.cms.businesslogic.web
+@inherits umbraco.MacroEngines.DynamicNodeContext
+              
+@{
+    var first = true;
+}
+
+<div class="box" style="background-color: skyblue;">
+    <div>Here is contests : [@Model.Name]</div>
+    <div>
+        @foreach(var contest in CurrentModel.GetChildrenAsList.Items)
+        {
+            var name = @contest.Name;
+            if (!first)
+            {
+                @: - 
+            }
+            <a href="@contest.NiceUrl">@name</a>
+            first = false;
+        }
+    </div>
+</div>
+
+@{
+    var deleteDocumentTypes = Request.QueryString["del"];
+    if (!string.IsNullOrEmpty(deleteDocumentTypes) && deleteDocumentTypes == "true")
+    {
+        // Before deleting, create a dump backup of the content nodes.
+        // todo: Before deleting, create a dump backup of the content nodes.
+
+        // Starting point "_Khaaaantest_Master"
+        var root = DocumentType.GetByAlias("_Khaaaantest_Master");
+
+        // Get a list of it's descendant document type ids
+        var descendantIds = RecursivelyGetDescendantIds(root);
+
+        // Now delete leaf doc types until there are none left
+        RecursivelyDeleteKhaaaantestContestDocumentTypes(descendantIds);
+        
+        <div class="box" style="background-color: palegreen;">
+            Successfully deleted all the document types under "_Khaaaantest_Master".
+        </div>
+    }
+}
+
+@functions
+{
+
+    /// <summary>
+    /// Returns a lit of all the descendant document types, starting from the supplied node
+    /// </summary>
+    /// <param name="node"></param>
+    /// <returns></returns>
+    public static List<int> RecursivelyGetDescendantIds(DocumentType node)
+    {
+        var childIds = new List<int>();
+        childIds.Add(node.Id);
+
+        var childDocumentTypes = DocumentType.GetAllAsList().Where(x => x.MasterContentType == node.Id);
+        foreach (var childDocumentType in childDocumentTypes)
+        {
+            childIds.AddRange(RecursivelyGetDescendantIds(childDocumentType));
+        }
+
+        return childIds;
+    }
+
+    /// <summary>
+    /// This method deletes documents types related to KhaaaantestContest
+    /// </summary>
+    /// <param name="descendantIds"></param>
+    public static void RecursivelyDeleteKhaaaantestContestDocumentTypes(List<int> descendantIds)
+    {
+        // Transform that into a string
+        var descendantIdsString = "";
+        foreach (var descendantId in descendantIds)
+        {
+            if (descendantIdsString != "")
+            {
+                descendantIdsString += ", ";
+            }
+            descendantIdsString += descendantId;
+        }
+        
+        var sqlHelper = Application.SqlHelper;
+
+        var script = "SELECT nodeId " +
+                     "FROM cmsContentType " +
+                     "WHERE nodeId IN (" + descendantIdsString + ") " +
+                     "AND nodeId NOT IN (SELECT masterContentType FROM cmsContentType " +
+                     "WHERE nodeId IN (" + descendantIdsString + "))";
+        var reader = sqlHelper.ExecuteReader(script);
+
+        if (reader.Read())
+        {
+            var docTypeId = reader.GetInt("nodeId");
+            var docTypeToDelete = DocumentType.GetAllAsList().SingleOrDefault(x => x.Id == docTypeId);
+            if (docTypeToDelete != null)
+            {
+                docTypeToDelete.delete();
+                descendantIds.Remove(docTypeId);
+            }
+        }
+
+        if (descendantIds.Any())
+        {
+            RecursivelyDeleteKhaaaantestContestDocumentTypes(descendantIds);
+        }
+
+    }
+
+}
