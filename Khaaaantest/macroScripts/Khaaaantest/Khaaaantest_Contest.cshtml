@@ -1,0 +1,189 @@
+@using umbraco.MacroEngines
+@inherits umbraco.MacroEngines.DynamicNodeContext
+              
+@functions
+{
+
+    /// <summary>
+    /// This method takes an Umbraco node Id and either returns the associated media URL or an empty string.
+    /// </summary>
+    /// <param name="nodeId"></param>
+    /// <returns></returns>
+    public static string GetMediaSrcOrEmptyString(string nodeId)
+    {
+        if (nodeId != "")
+        {
+            dynamic mediaItem = new DynamicNode(Convert.ToInt32(nodeId));
+            return mediaItem.umbracoFile;
+        }
+        return "";
+    }
+
+}
+
+@{
+    var imageSrc = GetMediaSrcOrEmptyString(Model.image);
+}
+
+
+
+<div class="box" style="background-color: palegreen;">
+    
+    Here is contest : [@Model.Name]<br/>
+    <br/>
+
+    <div class="box" style="background-color: sandybrown;">    
+        @Model.title<br/>
+        @Model.startDate<br/>
+        @Model.endDate<br/>
+        @Model.NumberOfWinnersToDraw<br/>
+        @imageSrc<br/>
+        @Model.text<br/>
+        <div id="contest-form" class="box" style="background-color: whitesmoke;">
+            <p class="contest-form-float">
+                <label for="fname">@library.GetDictionaryItem("Khaaaantest_FirstName")</label> <span class="errorMessage" error-message-for="fname"></span><br />
+                <input type="text" id="fname" name="fname" value="" required="required" />
+            </p>
+            <p class="contest-form-float">
+                <label for="lname">@library.GetDictionaryItem("Khaaaantest_LastName")</label> <span class="errorMessage" error-message-for="lname"></span><br />
+                <input type="text" id="lname" name="lname" value="" required="required" />
+            </p>
+            <p style="clear:both;">
+                <label for="email">@library.GetDictionaryItem("Khaaaantest_Email")</label> <span class="errorMessage" error-message-for="email"></span><br />
+                <input type="text" id="email" name="email" value="" required="required" />
+            </p>
+            <p><input type="submit" id="contest-submit" value="@library.GetDictionaryItem("Khaaaantest_Send")" onclick="clearThenSubmitContest()" /><img id="loader" style="display: none; padding-left: 20px;" src="/media/Khaaaantest/loader.gif" alt="" /></p>
+            <div id="errorMessage" class="errorMessage"></div>
+        </div>
+        <div id="contest-form-thank-you" style="display: none;">
+            <p>@library.GetDictionaryItem("Khaaaantest_Thanks")</p>
+        </div>
+    </div>
+    
+</div>
+
+
+<script type="text/javascript">
+
+    var first = true;
+    function clearThenSubmitContest() {
+
+        if (!first) {
+            // Clear all error messages
+            $('.errorMessage').fadeOut();
+
+            // Call submitContest() after the fade out
+            setTimeout(function () { submitContest(); }, 400);
+        } else {
+            first = false;
+            $('.errorMessage').hide();
+            submitContest();
+        }
+
+    }
+
+    var submitContest_inProgress = false;
+    function submitContest() {
+        if (!submitContest_inProgress) {
+            submitContest_inProgress = true;
+            // Get values
+            var contestId = "@CurrentModel.Id";
+            var fname = $('#fname').val();
+            var lname = $('#lname').val();
+            var email = $('#email').val();
+            
+            // Validate input
+            var hasError = false;
+            var errorMessage = "@library.GetDictionaryItem("Khaaaantest_RequiredField")";
+            $("#contest-form p > :input").each(function () {
+                var currentId = $(this).attr('id');
+                var isRequired = $(this).attr('required');
+
+                // For all fields except email
+                if ((currentId != "email") && (isRequired == "required")) {
+                    if ($(this).val() == "") {
+
+                        // Missing required field
+                        hasError = true;
+                        $('span[error-message-for="' + currentId + '"]').html(" &nbsp; " + errorMessage);
+
+                    } else {
+
+                        // Clear error message
+                        $('span[error-message-for="' + currentId + '"]').html("");
+
+                    }
+                } else if ((currentId == "email") && (isRequired == "required")) {
+
+                    // For email field
+                    if ($(this).val() == "") {
+
+                        // Missing required field
+                        hasError = true;
+                        $('span[error-message-for="' + currentId + '"]').html(" &nbsp; " + errorMessage);
+
+                    } else {
+
+                        // Clear error message
+                        $('span[error-message-for="' + currentId + '"]').html("");
+
+                        // Validate email format
+                        var str = $(this).val();
+                        var filter = /^([a-zA-Z0-9_\.\-\'])+\@@(([a-zA-Z0-9\-\_])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+                        if (!filter.test(str)) {
+
+                            // Wrong email format
+                            hasError = true;
+                            $('span[error-message-for="' + currentId + '"]').html(" &nbsp; @library.GetDictionaryItem("Khaaaantest_Error_FormatEmail")");
+
+                        } else {
+
+                            // Clear error message
+                            $('span[error-message-for="' + currentId + '"]').html("");
+
+                        }
+                    }
+
+                }
+
+            });
+
+            if (!hasError) {
+                $("#loader").fadeIn();
+                var rnd = Math.floor(Math.random() * 1000001); // Generate random so IE does not cache response
+                $.ajax({
+                    type: "POST",
+                    url: "/base/KhaaaantestLibrary/SubmitContest/",
+                    data: { rnd: rnd, contestId: contestId, fname: fname, lname: lname, email: email },
+                    dataType: "text",
+                    success: function (text) {
+                        submitContest_inProgress = false;
+                        $("#loader").fadeOut(function () {
+                            if (text != "") {
+
+                                if (text == "ok") {
+                                    $('#contest-form').fadeOut(function () {
+                                        $('#contest-form-thank-you').fadeIn();
+                                    });
+                                } else {
+                                    $('#errorMessage').html(text);
+                                    $('#errorMessage').fadeIn();
+                                }
+
+                            } else {
+                                // console.log("submitContest - No response from server...");
+                            }
+                        });
+                    }
+                });
+            } else {
+
+                submitContest_inProgress = false;
+                // Fade in error messages 
+                $('.errorMessage').fadeIn();
+
+            }
+        }
+    }
+</script>
