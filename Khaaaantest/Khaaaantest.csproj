@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{68F22763-6FFF-4B16-89DB-059440857549}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Khaaaantest</RootNamespace>
+    <AssemblyName>Khaaaantest</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="businesslogic, Version=1.0.4715.27658, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Umbraco4111\bin\businesslogic.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="cms, Version=1.0.4715.27658, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Umbraco4111\bin\cms.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="controls, Version=1.0.4679.40364, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Umbraco4111\bin\controls.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="interfaces">
+      <HintPath>..\Umbraco4111\bin\interfaces.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="umbraco">
+      <HintPath>..\Umbraco4111\bin\umbraco.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Umbraco.Core, Version=1.0.4715.27657, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Umbraco4111\bin\Umbraco.Core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="umbraco.DataLayer">
+      <HintPath>..\Umbraco4111\bin\umbraco.DataLayer.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="umbraco.MacroEngines, Version=1.0.4715.27667, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Umbraco4111\bin\umbraco.MacroEngines.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BuildEvents.txt" />
+    <Content Include="Actions\PackageActions.txt" />
+    <Content Include="media\Khaaaantest\loader.gif" />
+    <Content Include="umbraco\images\tray\contests.png" />
+    <Content Include="umbraco\images\umbraco\contest.png" />
+    <Content Include="umbraco\plugins\Khaaaantest\Contest.aspx" />
+    <Content Include="umbraco\plugins\Khaaaantest\ContestDownload.aspx" />
+    <Content Include="umbraco\plugins\Khaaaantest\NotSupported.ascx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Actions\AddLanguageFileKey.cs" />
+    <Compile Include="KhaaaantestLibrary.cs" />
+    <Compile Include="Actions\Installer.cs" />
+    <Compile Include="Entities\Contestant.cs" />
+    <Compile Include="NodeHooks.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Section\ContestSection.cs" />
+    <Compile Include="Tree\LoadContests.cs" />
+    <Compile Include="umbraco\plugins\Khaaaantest\Contest.aspx.cs">
+      <DependentUpon>Contest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="umbraco\plugins\Khaaaantest\Contest.aspx.designer.cs">
+      <DependentUpon>Contest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="umbraco\plugins\Khaaaantest\ContestDownload.aspx.cs">
+      <DependentUpon>ContestDownload.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="umbraco\plugins\Khaaaantest\ContestDownload.aspx.designer.cs">
+      <DependentUpon>ContestDownload.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="umbraco\plugins\Khaaaantest\NotSupported.ascx.cs">
+      <DependentUpon>NotSupported.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="umbraco\plugins\Khaaaantest\NotSupported.ascx.designer.cs">
+      <DependentUpon>NotSupported.ascx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\packages\created\createdPackages.config" />
+    <Content Include="media\created-packages\Khaaaantest!!_1.0.zip" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="obj\Debug\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>59864</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:43339/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>xcopy $(ProjectDir)App_Data\packages\created\createdPackages.config C:\_websites\Khaaaantest\Umbraco4111\App_Data\packages\created\ /e /y /i /r
+xcopy $(ProjectDir)bin\Khaaaantest.dll C:\_websites\Khaaaantest\Umbraco4111\bin\ /e /y /i /r
+xcopy $(ProjectDir)media\created-packages\Khaaaantest!!_1.0.zip C:\_websites\Khaaaantest\Umbraco4111\media\created-packages\ /e /y /i /r
+xcopy $(ProjectDir)media\Khaaaantest\* C:\_websites\Khaaaantest\Umbraco4111\media\Khaaaantest /e /y /i /r
+xcopy $(ProjectDir)umbraco\images\* C:\_websites\Khaaaantest\Umbraco4111\umbraco\images /e /y /i /r
+xcopy $(ProjectDir)umbraco\plugins\*.aspx C:\_websites\Khaaaantest\Umbraco4111\umbraco\plugins\ /e /y /i /r
+xcopy $(ProjectDir)umbraco\plugins\*.ascx C:\_websites\Khaaaantest\Umbraco4111\umbraco\plugins\ /e /y /i /r</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

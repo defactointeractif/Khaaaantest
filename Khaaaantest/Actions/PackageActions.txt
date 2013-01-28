@@ -1,0 +1,5 @@
+<Action runat="install" undo="true" alias="KhaaaantestInstaller" />
+<Action runat="install" undo="true" alias="addApplication" appName="Contests" appAlias="contests" appIcon="contests.png" sortOrder="7" />
+<Action runat="install" undo="true" alias="addApplicationTree" silent="false" initialize="true" sortOrder="0" applicationAlias="contests" treeAlias="contests" treeTitle="Contests" iconOpened=".sprTreeFolder_o" iconClosed=".sprTreeFolder" assemblyName="Khaaaantest" treeHandlerType="Tree.LoadContests" action="" />
+<Action runat="install" undo="true" alias="Khaaaantest_AddLanguageFileKey" language="en" position="end" area="sections" key="contests" value="Contests" />
+<Action runat="install" undo="true" alias="Khaaaantest_AddLanguageFileKey" language="fr" position="end" area="sections" key="contests" value="Concours" />
