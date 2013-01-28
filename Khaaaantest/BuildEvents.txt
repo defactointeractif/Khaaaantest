@@ -1,0 +1,7 @@
+xcopy $(ProjectDir)App_Data\packages\created\createdPackages.config C:\_websites\Khaaaantest\Umbraco4111\App_Data\packages\created\ /e /y /i /r
+xcopy $(ProjectDir)bin\Khaaaantest.dll C:\_websites\Khaaaantest\Umbraco4111\bin\ /e /y /i /r
+xcopy $(ProjectDir)media\created-packages\Khaaaantest!!_1.0.zip C:\_websites\Khaaaantest\Umbraco4111\media\created-packages\ /e /y /i /r
+xcopy $(ProjectDir)media\Khaaaantest\* C:\_websites\Khaaaantest\Umbraco4111\media\Khaaaantest /e /y /i /r
+xcopy $(ProjectDir)umbraco\images\* C:\_websites\Khaaaantest\Umbraco4111\umbraco\images /e /y /i /r
+xcopy $(ProjectDir)umbraco\plugins\*.aspx C:\_websites\Khaaaantest\Umbraco4111\umbraco\plugins\ /e /y /i /r
+xcopy $(ProjectDir)umbraco\plugins\*.ascx C:\_websites\Khaaaantest\Umbraco4111\umbraco\plugins\ /e /y /i /r
